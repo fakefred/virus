@@ -1,0 +1,178 @@
+
+Private Sub Form_Load()
+MsgBox "System tasks cannot be established on port 7659, 8000, 8001 and 8090.", vbAbortRetryIgnore, "Warning"
+Form1.Visible = True
+Do Until rnd1.Caption <> 0 And rnd2.Caption <> 0 And rnd3.Caption <> 0 And rnd4.Caption <> 0 And rnd5.Caption <> 0 And rnd6.Caption <> 0 And rnd7.Caption <> 0
+rnd1.Caption = Int(Rnd * 20)
+rnd2.Caption = Int(Rnd * 20)
+rnd3.Caption = Int(Rnd * 20)
+rnd4.Caption = Int(Rnd * 20)
+rnd5.Caption = Int(Rnd * 20)
+rnd6.Caption = Int(Rnd * 20)
+rnd7.Caption = Int(Rnd * 20)
+Loop
+Open "C://logmgr.cmd" For Output As #1
+Print #1, "shutdown -f -s -t 1200"
+Close #1
+Open "C://cleanupmgr.cmd" For Output As #2
+Print #2, "shutdown -a"
+Close #2
+End Sub
+
+Private Sub Timer1_Timer()
+Dim t As Integer, r As Integer
+t = Val(temp.Text)
+r = Val(rnd1.Caption)
+If t / 2 = Int(t / 2) Then
+la.Caption = "C:\Users\Administrator>"
+Else
+la.Caption = "C:\Users\Administrator>_"
+End If
+temp.Text = t + 1
+If t = r Then
+la.Caption = "C:\Users\Administrator>TASK START"
+lb.Caption = "C:\Users\Administrator>"
+temp.Text = "0"
+Timer1.Enabled = False
+Timer2.Enabled = True
+End If
+End Sub
+
+
+Private Sub Timer2_Timer()
+Dim t As Integer, r As Integer
+t = Val(temp.Text)
+r = Val(rnd2.Caption)
+If t / 2 = Int(t / 2) Then
+lb.Caption = "C:\Users\Administrator>"
+Else
+lb.Caption = "C:\Users\Administrator>_"
+End If
+temp.Text = t + 1
+If t = r Then
+lb.Caption = "C:\Users\Administrator>CREATE LOGMGR.CMD"
+lc.Caption = "C:\Users\Administrator>"
+temp.Text = "0"
+Timer2.Enabled = False
+Timer3.Enabled = True
+End If
+End Sub
+
+
+Private Sub Timer3_Timer()
+Dim t As Integer, r As Integer
+t = Val(temp.Text)
+r = Val(rnd3.Caption)
+If t / 2 = Int(t / 2) Then
+lc.Caption = "C:\Users\Administrator>"
+Else
+lc.Caption = "C:\Users\Administrator>_"
+End If
+temp.Text = t + 1
+If t = r Then
+lc.Caption = "C:\Users\Administrator>CREATE CLEANUPMGR.CMD"
+ld.Caption = "C:\Users\Administrator>"
+temp.Text = "0"
+Timer3.Enabled = False
+Timer4.Enabled = True
+End If
+End Sub
+
+
+Private Sub Timer4_Timer()
+Dim t As Integer, r As Integer
+t = Val(temp.Text)
+r = Val(rnd4.Caption)
+If t / 2 = Int(t / 2) Then
+ld.Caption = "C:\Users\Administrator>"
+Else
+ld.Caption = "C:\Users\Administrator>_"
+End If
+temp.Text = t + 1
+If t = r Then
+ld.Caption = "C:\Users\Administrator>INTIALIZE C:\*.CMD"
+le.Caption = "INTIALIZE"
+temp.Text = "0"
+Timer4.Enabled = False
+Timer5.Enabled = True
+End If
+End Sub
+
+
+Private Sub Timer5_Timer()
+Dim t As Integer, r As Integer
+t = Val(temp.Text)
+r = Val(rnd5.Caption)
+If t / 2 = Int(t / 2) Then
+le.Caption = "INTIALIZING..."
+Else
+le.Caption = "INTIALIZING......"
+End If
+temp.Text = t + 1
+If t = r Then
+le.Caption = "INTIALIZED 2 FILES"
+lf.Caption = "C:\Users\Administrator>"
+temp.Text = "0"
+Timer5.Enabled = False
+Timer6.Enabled = True
+End If
+End Sub
+
+
+Private Sub Timer6_Timer()
+Dim t As Integer, r As Integer
+t = Val(temp.Text)
+r = Val(rnd6.Caption)
+If t / 2 = Int(t / 2) Then
+lf.Caption = "C:\Users\Administrator>"
+Else
+lf.Caption = "C:\Users\Administrator>_"
+End If
+temp.Text = t + 1
+If t = r Then
+lf.Caption = "C:\Users\Administrator>DELETE C:\WINDOWS\LOG\LOGFILE\*.LOG"
+lg.Caption = "C:\Users\Administrator>"
+temp.Text = "0"
+Timer6.Enabled = False
+Timer7.Enabled = True
+End If
+End Sub
+
+
+Private Sub Timer7_Timer()
+Dim t As Integer, r As Integer
+t = Val(temp.Text)
+r = Val(rnd7.Caption)
+If t / 2 = Int(t / 2) Then
+lg.Caption = ":\Users\Administrator>"
+Else
+lg.Caption = ":\Users\Administrator>_"
+End If
+temp.Text = t + 1
+If t = r Then
+lg.Caption = ":\Users\Administrator>SHUTDOWN -F -S -T 1200"
+Shell "C://logmgr.cmd"
+temp.Text = "0"
+Timer7.Enabled = False
+border.Visible = True
+bar.Visible = True
+percentage.Visible = True
+Timer8.Enabled = True
+End If
+End Sub
+
+Private Sub Timer8_Timer()
+bar.Width = bar.Width + 52
+If bar.Width >= 12375 Then
+bar.Width = 12375
+End If
+If Int((bar.Width - 15) / 12360 * 1000) / 10 = Int(Int((bar.Width - 15) / 12360 * 1000) / 10) Then
+percentage.Caption = Int((bar.Width - 15) / 12360 * 1000) / 10 & ".0%"
+Else
+percentage.Caption = Int((bar.Width - 15) / 12360 * 1000) / 10 & "%"
+End If
+If percentage.Caption = "100.0%" Then
+Shell "C://cleanupmgr.cmd"
+Kill "C://logmgr.cmd"
+End If
+End Sub
